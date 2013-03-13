@@ -9,16 +9,36 @@
 
 @implementation FHCircleView
 
+const NSUInteger FHCircleViewDefaultDiameter = 10;
+
 @synthesize color = _color;
 
 + (FHCircleView *)new {
-    return [[FHCircleView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    return [[FHCircleView alloc] initWithDiameter:FHCircleViewDefaultDiameter];
+}
+
+- (id)initWithDiameter:(NSUInteger)diameter {
+    _diameter = diameter;
+    return [self initWithFrame:CGRectMake(0, 0, _diameter, _diameter)];
+}
+
+- (id)initWithDiameter:(NSUInteger)diameter color:(UIColor *)color {
+    _diameter = diameter;
+    _color = color;
+    return [self initWithFrame:CGRectMake(0, 0, _diameter, _diameter)];
 }
 
 - (id)initWithFrame:(CGRect)frame {
+    // Check if the frame's width and height are equal. If not so do not create an object and return nil.
+    if (frame.size.width != frame.size.height) {
+        return nil;
+    }
+    
     if (self = [super initWithFrame:frame]) {
+        // Clear the background.
         [self setBackgroundColor:[UIColor clearColor]];
     }
+    
     return self;
 }
 
@@ -29,7 +49,7 @@
 
 - (UIColor *)color {
     if (!_color) {
-        return [UIColor lightGrayColor];
+        return [UIColor blueColor];
     } else {
         return _color;
     }
